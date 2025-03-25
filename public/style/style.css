@@ -1,0 +1,157 @@
+/* Header */
+header {
+  background-color: #ffffff;
+  padding: 12px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.header-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sys-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: #3ab795;
+}
+
+.search input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: white;
+  min-width: 200px;
+}
+
+/* Nav Links */
+nav ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+nav ul li a {
+  padding: 8px 14px;
+  border-radius: 6px;
+  transition: background 0.3s;
+  color: #3ab795;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  background-color: #e1f5f0;
+}
+
+/* Welcome Section */
+.Home {
+  margin-top: 30px;
+  text-align: left;
+}
+
+.welc h1 {
+  font-size: 32px;
+  color: #222;
+}
+
+.welc p {
+  margin-top: 4px;
+  color: #777;
+}
+
+/* Quote box */
+.qbox {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.qbox p {
+  font-size: 18px;
+  color: #444;
+}
+
+.qbox .quoted {
+  display: block;
+  margin-top: 10px;
+  text-align: right;
+  font-style: italic;
+  color: #3ab795;
+}
+
+/* Action Buttons */
+.buttonsAdd {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.buttonsAdd li a {
+  display: inline-block;
+  padding: 12px 20px;
+  background-color: white;
+  color: #3ab795;
+  border: 1px solid #3ab795;
+  border-radius: 10px;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: all 0.3s ease-in-out;
+}
+
+.buttonsAdd li a:hover {
+  background-color: #3ab795;
+  color: white;
+}
+
+/* Health Summary Section */
+.health-summary {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.health-summary h3 {
+  font-size: 1.2rem;  /* Slightly smaller font for the title */
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Summary Cards Container */
+.summary-cards {
+  display: flex;
+  gap: 10px;  /* Reduce space between cards */
+}
+
+/* Individual Summary Card */
+.summary-card {
+  flex: 1;
+  padding: 12px;  /* Smaller padding for compact design */
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;  /* Smaller text for a more compact look */
+}
+
+/* Title of each card */
+.summary-card h4 {
+  font-size: 1rem;  /* Smaller font for the card titles */
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* Text inside the cards */
+.summary-card p {
+  font-size: 1.2rem;  /* Smaller font size for the content */
+  color: #555;
+  font-weight: 700;
+}
