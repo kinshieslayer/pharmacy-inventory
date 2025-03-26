@@ -8,12 +8,10 @@
 </p>
 
 
-https://github.com/kinshieslayer/pharmacy-inventory/blob/5742d053063937231e122919bf133af4eae59ae4/image_2025-03-26_00-03-42.png
+![Dashboard Preview](https://github.com/kinshieslayer/pharmacy-inventory/blob/5742d053063937231e122919bf133af4eae59ae4/image_2025-03-26_00-03-42.png)
 
-https://github.com/kinshieslayer/pharmacy-inventory/blob/5742d053063937231e122919bf133af4eae59ae4/image_2025-03-26_00-03-14.png
+![Search Functionality](https://github.com/kinshieslayer/pharmacy-inventory/blob/5742d053063937231e122919bf133af4eae59ae4/image_2025-03-26_00-03-14.png)
 
+![Inventory Management](https://github.com/kinshieslayer/pharmacy-inventory/blob/5742d053063937231e122919bf133af4eae59ae4/image_2025-03-26_00-02-55.png)
 
-https://github.com/kinshieslayer/pharmacy-inventory/blob/5742d053063937231e122919bf133af4eae59ae4/image_2025-03-26_00-02-55.png
-
-
-https://github.com/kinshieslayer/pharmacy-inventory/blob/5742d053063937231e122919bf133af4eae59ae4/image_2025-03-26_00-01-59.png
+![Mobile View](https://github.com/kinshieslayer/pharmacy-inventory/blob/5742d053063937231e122919bf133af4eae59ae4/image_2025-03-26_00-01-59.png)
