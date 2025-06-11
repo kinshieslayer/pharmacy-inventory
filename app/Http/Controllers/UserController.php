@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -12,21 +15,23 @@ class UserController extends Controller
         $username = $req->usern;
         $password = $req->pass;
     
-        // Check if the user exists with the provided credentials
-        $user = DB::table('users')
-            ->where('name', $username)
-            ->where('password', $password)
-            ->first();
-    
-        if ($user) {
-            // Start a new session and store user data
+        // Find the user by username
+        $user = User::where('name', $username)->first();
+
+        // Check if the user exists and the plain text password matches
+        if ($user && $user->password === $password) {
+            // Use Laravel's Auth facade to log the user in
+            Auth::login($user);
+
+            // Start a new session and store additional user data
             session()->regenerate();
             session([
                 'userid' => $user->id,
                 'user' => $user->name,
                 'Name' => $user->name,
                 'pfp' => $user->picture ?? null,
-                'page_title' => $user->page_title,  // Store page_title in the session
+                'page_title' => $user->page_title,
+                'role' => $user->role,
             ]);
     
             // Redirect to the home page
@@ -40,16 +45,16 @@ class UserController extends Controller
     
     public function showAllStaff()
     {
-        $owners = DB::table('users')->where('type', 'owner')->get();
-        $pharmacists = DB::table('users')->where('type', 'pharmacist')->get();
+        $admins = DB::table('users')->where('role', 'admin')->get();
+        $pharmacists = DB::table('users')->where('role', 'pharmacist')->get();
 
-        return view('user_settings.staff', compact('owners', 'pharmacists'));
+        return view('pharmacists.index', compact('admins', 'pharmacists'));
     }
 
     public function handleRegister(Request $req)
     {
         if ($req->password !== $req->cpassword) {
-            return back()->with('msg', 'Passwords don’t match');
+            return back()->with('msg', "Passwords don't match");
         }
 
         if (strlen($req->password) < 8) {
@@ -65,7 +70,10 @@ class UserController extends Controller
         DB::table('users')->insert([
             'name' => $req->name,
             'password' => $req->password,
-            'type' => 'pharmacist'
+            'role' => 'pharmacist',
+            'email' => $req->email ?? null,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         return redirect()->route('showAllStaff');
@@ -79,28 +87,77 @@ class UserController extends Controller
             $pharmacists = DB::table('users')->where('name', $name)->get();
         } else {
             $pharmacists = DB::table('users')
-                ->where('type', 'pharmacist')
+                ->where('role', 'pharmacist')
                 ->where('name', 'LIKE', "%$name%")
                 ->get();
         }
 
         return back()->with('searchresult', 1)->with('pharmacists', $pharmacists);
     }
+
     public function showProfile()
-{
-    // Get the logged-in user from the session
-    $user = DB::table('users')->where('id', session('userid'))->first();
+    {
+        // Get the logged-in user from the session
+        $user = DB::table('users')->where('id', session('userid'))->first();
 
-    // Pass the user data to the view
-    return view('user_settings.profile', ['user' => $user]);
-}
-
+        // Pass the user data to the view
+        return view('user_settings.profile', ['user' => $user]);
+    }
 
     public function staffDelete(Request $req)
     {
         DB::table('users')->where('id', $req->id)->delete();
-        return back();
+        return back()->with('success', 'User deleted successfully.');
     }
+
+    /**
+     * Show the form for editing the specified pharmacist.
+     */
+    public function editPharmacist($id)
+    {
+        $pharmacist = DB::table('users')->where('id', $id)->where('role', 'pharmacist')->first();
+
+        if (!$pharmacist) {
+            return back()->with('error', 'Pharmacist not found.');
+        }
+
+        return view('pharmacists.edit', compact('pharmacist'));
+    }
+
+    /**
+     * Update the specified pharmacist in storage.
+     */
+    public function updatePharmacist(Request $req, $id)
+    {
+        $pharmacist = DB::table('users')->where('id', $id)->where('role', 'pharmacist')->first();
+
+        if (!$pharmacist) {
+            return back()->with('error', 'Pharmacist not found.');
+        }
+
+        $req->validate([
+            'name' => 'required|string|max:255|unique:users,name,' . $id,
+            'email' => 'nullable|email|max:255|unique:users,email,' . $id,
+            'password' => 'nullable|min:8|confirmed',
+            'page_title' => 'nullable|string|max:255',
+        ]);
+
+        $updateData = [
+            'name' => $req->name,
+            'email' => $req->email,
+            'page_title' => $req->page_title,
+            'updated_at' => now(),
+        ];
+
+        if ($req->filled('password')) {
+            $updateData['password'] = $req->password;
+        }
+
+        DB::table('users')->where('id', $id)->update($updateData);
+
+        return redirect()->route('admin.pharmacists.index')->with('success', 'Pharmacist updated successfully.');
+    }
+
     public function updateTitle(Request $request)
     {
         // Get the logged-in user from session
@@ -121,5 +178,4 @@ class UserController extends Controller
     
         return back()->with('msg', 'Pharmacy title updated successfully!');
     }
-    
 }

@@ -60,6 +60,9 @@
                 <a href="{{ route('showallPurchase') }}" class="sidebar-link text-gray-800 flex items-center p-3 rounded-md hover:bg-blue-100">
                     <i class="fas fa-file-invoice mr-3 text-xl"></i> Orders
                 </a>
+                <a href="{{ route('admin.pharmacists.index') }}" class="sidebar-link text-gray-800 flex items-center p-3 rounded-md hover:bg-blue-100">
+                    <i class="fas fa-user-md mr-3 text-xl"></i> Pharmacists
+                </a>
                 <a href="{{ route('showProfile') }}" class="sidebar-link text-gray-800 flex items-center p-3 rounded-md hover:bg-blue-100">
                     <i class="fas fa-user mr-3 text-xl"></i> Profile
                 </a>

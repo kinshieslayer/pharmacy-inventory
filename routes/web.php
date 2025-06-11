@@ -94,3 +94,16 @@ Route::get('/logout', function () {
 Route::fallback(function () {
     return view('subviews.wentWrong');
 });
+
+// Admin routes
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Pharmacist Management Routes (moved from general prefix group)
+    Route::get('/pharmacists', [App\Http\Controllers\UserController::class, 'showAllStaff'])->name('pharmacists.index');
+    Route::get('/pharmacists/{id}/edit', [App\Http\Controllers\UserController::class, 'editPharmacist'])->name('pharmacists.edit');
+    Route::put('/pharmacists/{id}', [App\Http\Controllers\UserController::class, 'updatePharmacist'])->name('pharmacists.update');
+});
+
+// Protected routes for both admin and pharmacist
+Route::middleware(['auth', 'role:admin,pharmacist'])->group(function () {
+    // Add your existing protected routes here
+});

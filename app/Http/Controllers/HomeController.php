@@ -37,12 +37,12 @@ class HomeController extends Controller
     
             $prescriptionPurchases = DB::table('purchases')
             ->join('drugs', 'purchases.product_id', '=', 'drugs.id')
-            ->where('drugs.is_prescription', true)
+            ->where('drugs.prescription_required', true)
             ->sum('purchases.quantity');
         
         $otcPurchases = DB::table('purchases')
             ->join('drugs', 'purchases.product_id', '=', 'drugs.id')
-            ->where('drugs.is_prescription', false)
+            ->where('drugs.prescription_required', false)
             ->sum('purchases.quantity');
 
             $totalPurchases = $prescriptionPurchases + $otcPurchases;

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class SettingsController extends Controller
 {
@@ -15,7 +17,7 @@ class SettingsController extends Controller
     private function isPasswordValid($enteredPassword, $id)
     {
         $user = DB::table('users')->where('id', $id)->first();
-        return $user && $user->password === $enteredPassword;  // Comparing plain text password
+        return $user && $user->password === $enteredPassword;
     }
 
     private function updateSessionData($user)
@@ -26,6 +28,7 @@ class SettingsController extends Controller
             'user' => $user->name,
             'Name' => $user->name,
             'pfp' => $user->picture,
+            'role' => $user->role,
         ]);
     }
 
@@ -121,11 +124,10 @@ class SettingsController extends Controller
             return back()->with('error', 'Passwords do not match');
         }
     
-        // Only update the password, without modifying other fields like name
+        // Update the password
         DB::table('users')->where('id', $userId)->update(['password' => $request->newpass]);
     
         return back()->with('msg', 'Password updated successfully');
-        
     }
     public function handleUsernameUpdate(Request $request)
 {
